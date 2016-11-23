@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8"/>
+	<meta name="viewport" content="width=device-width">
+	<link href="css/styles.css" rel="stylesheet"/>
+	<script src="scripts/script.js"></script>
+	<title></title>
+	<style>
+		img{
+			width: 600px;
+			height: 700px;
+		}
+	</style>
+</head>
+<body>
+	<header><h1 align="center">CityZen application guide</h1></header>
+	<section>
+		<article typeof="schema:ScholarlyArticle" style="margin-left:200px;margin-top:100px;margin-right: 200px; text-align:center">
+			<h3>Introduction</h3>
+			<p>This application is destined for users to report various problems in their city, in order for the authorities to resolve them. The application has two types of accounts: normal user and admin. 
+				The normal users can post different kinds of problems which can be marked as solved only by admins.</p>
+
+				<h3>1. Login page</h3>
+				<p>The first page in this application is the login page. Here, users can authenticate using their facebook account, or they can create a new account only for the application. Admins or authorities will make a request by mail, providing some proof that they are really authorities.</p>
+				<img src="login.png">
+
+
+				<h3>2. Register page</h3>
+				<p>If the user does not have and account, he can create one by clicking the register tab, which will open a registration page where he will be asked to provide the data required for the account.</p>
+				<img src="register.png">
+
+				<h3>3. Posts</h3>
+				<p>This is the page where all the posts will appear, added by users or posts from Facebook that have tagged the <u>CitiZen</u> page. Every post can be upvoted or downvoted, depending on the user's preference. The posts will be ordered by the number of upvotes. The user can select a post to view details about it, opening the Post Page, can add a post by clicking the <u>Add post</u> button and can search for some specific post in the website. By clicking the <u>Advanced search</u>, the user can select a specific category.</p>
+				<img src="postspage.png">
+
+				<h3>4. Post page</h3>
+				<p>By clicking the <u>Add post</u> button, a user can submit a post with a problem he encountered. Other users can access the post page to comment, upvote or downvote it. Each post will have a status (unresolved / resolved). Authorities will have a <u>Mark as resolved</u> button to change the status of the problem in the post when they solve it.</p>
+				<img src="post.png">
+
+				<h3>5. Statistics</h3>
+				<p>The statistics page will display the number of users that upvoted a post, if the authorities have worked on the problem, if it got resolved or not. </p>
+				<img src="statistics.png">
+			</article>
+		</section>
+		<br/><br/>
+		<br/><br/>
+		<section>
+			<ol>
+				<li property="schema:author" typeof="sa:ContributorRole">
+					<a property="schema:author" href="#" typeof="schema:Person">
+						<span property="schema:givenName">Alexandru</span>
+						<span property="schema:familyName">Asofroniei</span>
+					</a>
+					<sup property="sa:roleContactPoint" typeof="schema:ContactPoint">
+						<a property="schema:email" href="mailto:bnalexandru@gmail.com" title="corresponding author">✉</a>
+					</sup>
+				</li>
+				<li property="schema:author" typeof="sa:ContributorRole">
+					<a property="schema:author" href="#" typeof="schema:Person">
+						<span property="schema:givenName">Andrei</span>
+						<span property="schema:familyName">Calenciuc</span>
+					</a>
+					<sup property="sa:roleContactPoint" typeof="schema:ContactPoint">
+						<a property="schema:email" href="mailto:calenciuc.andrei@gmail.com" title="corresponding author">✉</a>
+					</sup>
+				</li>
+				<li property="schema:author" typeof="sa:ContributorRole">
+					<a property="schema:author" href="#" typeof="schema:Person">
+						<span property="schema:givenName">Eduard</span>
+						<span property="schema:familyName">Dragoi</span>
+					</a>
+					<sup property="sa:roleContactPoint" typeof="schema:ContactPoint">
+						<a property="schema:email" href="mailto:dragoi.eduard@hotmail.com" title="corresponding author">✉</a>
+					</sup>
+				</li>
+				
+			</ol>
+			<ul>
+				<li id="scienceai">
+					<a href="http://science.ai/" typeof="schema:Corporation">
+						<span property="schema:name">http://profs.info.uaic.ro/~busaco/</span>
+					</a>
+				</li>
+			</ul>
+		</section>
+	</body>
+	</html>
