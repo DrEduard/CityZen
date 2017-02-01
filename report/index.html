@@ -196,9 +196,10 @@
         <p>Our application gives authorities the posibility to mark issues as resolved when they have done so.</p>
         <ul>
           <li>An admin user will click on the post that needs to be marked as resolved.</li>
-          <li>The system will check the status of the post. If the status is approved then the post will have a "Mark as resolved" button</p>
-          <li>On the post page he will click the button that marks the post as resolved .</li>
-          <li>The system will mark the post as resolved in the queue and display it with the according style.</li>
+          <li>The system will check the status of the post. If the status is approved then the post will have a "Mark as resolved"
+            button</p>
+            <li>On the post page he will click the button that marks the post as resolved .</li>
+            <li>The system will mark the post as resolved in the queue and display it with the according style.</li>
         </ul>
         <h4>5. Viewing statistics</h4>
         <p>Admin users have the ability to view statistics regarding posts, users and user activity on the website.</p>
@@ -214,61 +215,112 @@
 
       <section id="architecture">
         <h3>Application architecture</h3>
+        <p>
+        Our application is composed of four main modules: Data Layer, User Management, Post Management and Reporting.
+        </p>
+        <figure typeof="sa:Image">
+          <img src="assets/soa.png">
+          <figcaption>Basic representation of the modules and how they interact.</figcaption>
+        </figure>
+
+
+
+        <section id="data">
+          <h3>Data layer</h3>
+          <p>
+            The data layer is responsible with saving, updating and getting data from the database. The data layer contains the following data structures:
+          </p>
+          <ul>
+              <li>ApplicationUser</li>
+              <p>
+            ApplicationUser defines the information stored regarding the application's users. This includes the username, email, password, address and city. This class is used by the User Mangement module.
+          </p>
+              <li>Category</li>
+              <p>
+            This class defines the categories used in creating a new post.
+          </p>
+              <li>Comment</li>
+              <p>
+                This class contains the comment text, number of upvotes, a isImportant property (used to differentiate comments made by authorities) and the date.
+              </p>
+              <li>Post</li>
+              <p>
+                The post class contains the following properties: title, description, photo, address, city, date added, date resolved, upvotes, approval status, resolve status.
+              </p>
+              <li>UserCommentUpvotes</li>
+              <p>
+                This class is used to track the comment upvotes performed by users.
+              </p>
+              <li>UserPostUpvotes</li>
+              <p>
+                This class is used to track the post upvotes performed by users.
+              </p>
+          </ul>
+    
+          
+        </section>
+        <section id="modules">
+          <h3>Submodules</h3>
+            <h4>User Management</h4>
+            <p>
+              The user management module contains the following submodules: register, login, external login. User management is implemented using the ASP.NET Identity system.
+            </p>
+            <p>
+              The login submodule consumes a username and password and generates a login token, that can be used to access application functions that are restricted.
+            </p>
+            <p>
+              The register submodule takes as argument user data and sends it to the data layer for saving.
+            </p>
+            <p>
+              The external login is done using Facebook's Login. The integration is made using ASP.NET Identity provided functionality.
+            </p>
+            <h4>Post Management</h4>
+            <p>
+              Post Management is partitioned in: add post, add comment, post state change.
+              The add post submodule is responsible for validating collecting new post data, validating it and send it to the data layer.
+              The add comment receives the post context and the comment to be added. After validation the data is sent to the data layer.
+              The post change state contains logic that changes the upvote number, resolve status and approve status.
+            </p>
+            <h4>Reporting</h4>
+            <p>The reporting module receives data from the data layer, and uses it to generate statistics and present it to the user.</p>
+        </section>
+        <section id="externaldata">
+          <h3>External data sources</h3>
+          <p>
+            We use the Facebook login API to allow users to register and login by using their Facebook account.
+          </p>
+          <p>
+            We offer users the ability to share posts to social media websites. The scope of this is to increase awarness of issues through social media.
+          </p>
+          <p>
+            We use the Google Maps API to allow users to pin point issues easier by autocompleting the location fields.
+          </p>
+        </section>
 
       </section>
-      <section id="data">
-        <h3>Data layer</h3>
-        <p>
-          In this section we will identify and describe the data structures created for this application.
-        </p>
-        
-        
-      </section>
-      <section id="modules">
-        <h3>Submodules</h3>
-        
-      </section>
-      <section id="externaldata">
-        <h3>External data sources</h3>
-      </section>
-      
-    </section>
-    
-    <section typeof="sa:Conclusion" id="conclusion">
-      <h2>Conclusion</h2>
-      
     </section>
     <section typeof="sa:ReferenceList" id="references">
       <h2>References</h2>
       <dl>
-        <dt>NYT, 2014</dt>
-        <dd id="ref-nyt" typeof="schema:ScholarlyArticle" resource="http://www.scribd.com/doc/224608514/The-Full-New-York-Times-Innovation-Report">
+        <dt>James Falkner, 2016</dt>
+        <dd id="ref-nyt" typeof="schema:ScholarlyArticle" resource="https://developers.redhat.com/blog/2016/11/07/microservices-comparing-diy-with-apache-camel/">
           <cite property="schema:name"><a
-              href="http://www.scribd.com/doc/224608514/The-Full-New-York-Times-Innovation-Report">The
-              Full New York Times Innovation Report</a></cite>, by
+              href="https://developers.redhat.com/blog/2016/11/07/microservices-comparing-diy-with-apache-camel/">Microservices: Comparing DIY with Apache Camel</a></cite>, by
           <span property="schema:author" typeof="schema:Person">
-              <span property="schema:name">New York Times</span>
+              <span property="schema:name">James Falkner</span>
           </span>;
-          <time property="schema:datePublished" datetime="2014-03" datatype="xsd:gYearMonth">2014 Mar</time>.
+          <time property="schema:datePublished" datetime="2016-11" datatype="xsd:gYearMonth">2016 Nov</time>.
         </dd>
-        <dt>Science.AI, 2015a</dt>
-        <dd id="ref-sa-ontology" typeof="schema:ScholarlyArticle" resource="https://github.com/scienceai/scholarly-article/blob/master/scholarly-article.json">
+        <dt>Microsoft, 2016</dt>
+        <dd id="ref-sa-ontology" typeof="schema:ScholarlyArticle" resource="https://www.asp.net/identity">
           <cite property="schema:name"><a
-              href="https://github.com/scienceai/scholarly-article/blob/master/scholarly-article.json">The
-              Scholarly Article ontology</a></cite>, by
+              href="https://www.asp.net/identity">Getting started with ASP.NET Identity</a></cite>, by
           <span property="schema:author" typeof="schema:Person">
-              <span property="schema:name">Science.AI</span>
+              <span property="schema:name">Microsoft</span>
           </span>;
-          <time property="schema:datePublished" datetime="2015-09" datatype="xsd:gYearMonth">2015 Sep</time>.
+          <time property="schema:datePublished" datetime="2016-01" datatype="xsd:gYearMonth">2016 Jan</time>.
         </dd>
-        <dt>Science.AI, 2015b</dt>
-        <dd id="ref-vernacular" typeof="schema:ScholarlyArticle" resource="http://vernacular.io/">
-          <cite property="schema:name"><a href="http://vernacular.io/">Vernacular — HTML Made Special</a></cite>, by
-          <span property="schema:author" typeof="schema:Person">
-              <span property="schema:name">Science.AI</span>
-          </span>;
-          <time property="schema:datePublished" datetime="2015-10" datatype="xsd:gYearMonth">2015 Oct</time>.
-        </dd>
+        
       </dl>
     </section>
   </article>
