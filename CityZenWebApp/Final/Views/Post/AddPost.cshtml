@@ -1,0 +1,152 @@
+﻿@model Final.Models.PostViewModel
+
+@{
+    ViewBag.Title = "AddPost";
+}
+@*<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBsdYDbgwn4gnR6RV3g4kYgCpkFS-XyVqw&libraries=places"></script>*@
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#browse').change(function () {
+            read(this);
+        })
+
+        $('#Post_Category').on('change', function () {
+            if ($(this).val() == "Other") {
+                $('#own_cat').show();
+            } else {
+                $('#own_cat').hide();
+            }
+        })
+        $('form').on('submit', function () {
+            if ($('#Post_Category').val() == "Other") {
+                $('#newCategory').val($('#Own_category').val());
+            }
+        })
+    })
+
+    function read(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('.default_preview').attr('src', e.target.result);
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+    function HandleBrowseClick() {
+        var fileinput = document.getElementById("browse");
+        fileinput.click();
+    }
+    function Handlechange() {
+        var fileinput = document.getElementById("browse");
+        var textinput = document.getElementById("filename");
+        // alert(fileinput.value);
+        // $("#filename").text(fileinput.value);
+        //textinput.value = fileinput.value;
+    }
+
+    var placeSearch, autocomplete;
+    var componentForm = {
+        route: 'long_name',
+        locality: 'long_name'
+    };
+
+    function initAutocomplete() {
+        autocomplete = new google.maps.places.Autocomplete(
+            (document.getElementById('autocomplete')),
+            { types: ['geocode'] });
+
+        autocomplete.addListener('place_changed', fillInAddress);
+    }
+
+    function fillInAddress() {
+        var place = autocomplete.getPlace();
+
+        for (var i = 0; i < place.address_components.length; i++) {
+            var addressType = place.address_components[i].types[0];
+            if (componentForm[addressType]) {
+                var val = place.address_components[i][componentForm[addressType]];
+                document.getElementById(addressType).value = val;
+            }
+        }
+    }
+
+</script>
+
+<h2>Report a new problem by filling the form below</h2>
+
+
+@using (Html.BeginForm("AddPost", "Post", FormMethod.Post, new { @class = "form-horizontal", role = "form", @enctype = "multipart/form-data" }))
+{
+    @Html.Hidden("newCategory")
+    <hr />
+    @Html.ValidationSummary("", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(m => m.Post.Title, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Post.Title, new { @class = "form-control", placeholder="Insert a title" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Post.Description, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextAreaFor(m => m.Post.Description, new { @class = "form-control", placeholder = "Insert a description" })
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-md-2 control-label">Category</label>
+        <div class="col-md-10">
+            @Html.DropDownListFor(m => m.Post.Category, new SelectList(Model.Categories, "Name", "Name"), "--Select Category--", new { @class = "form-control" })
+        </div>
+        
+    </div>
+    <div id="own_cat" class="form-group" style="display:none;">
+        <label class="col-md-2 control-label">New category</label>
+        <div  class="col-md-10">
+            @Html.TextBox("Own category", "", new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2">Full address</label>
+        <div id="locationField" class="col-md-10">
+            <input id="autocomplete" type="text" placeholder="Full address" class="form-control" />
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Post.Address, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Post.Address, new { @id = "route", @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Post.City, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Post.City, new { @id = "locality", @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <input type="file" id="browse" name="fileupload" style="display: none" onchange="Handlechange();" />
+
+
+        <label id="filename" style="display:none"></label>
+
+        <label class="control-label col-md-2">
+            <a id="fakeBrowse" class="btn btn-default" onclick="HandleBrowseClick();">Add Photo</a>
+        </label>
+        <div class="col-md-10">
+            <img id="default_preview" class="default_preview" src="~/Content/images/noimage.jpg" width="120" />
+        </div>
+      
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" class="btn btn-primary" value="Add post" />
+        </div>
+    </div>
+}
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBsdYDbgwn4gnR6RV3g4kYgCpkFS-XyVqw&libraries=places&callback=initAutocomplete"
+        async defer></script>

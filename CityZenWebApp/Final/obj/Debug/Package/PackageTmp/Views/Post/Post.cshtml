@@ -1,0 +1,97 @@
+﻿@model Post
+@{
+    ViewBag.Title = "Post";
+}
+
+
+
+@*<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+    <div class="row post_container mt80">
+        <p class="metadata">Category: @Model.Category</p>
+        <h2 style="display:inline;">@Model.Title</h2>
+        <p>@Model.Description</p>
+        <div class="description">
+
+        </div>
+    </div>
+</div>*@
+<!-- Go to www.addthis.com/dashboard to customize your tools -->
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-588b5c7c455c7ff3"></script> 
+@Html.Hidden("postId",Model.Id)
+<div class="jumbotron">
+    <div class="post">
+       
+        @if (!Model.IsApproved && !Model.IsResolved)
+        {
+            <button class="btn btn-warning btn-lg" onclick="javascript: MarkPostResolved('app');">Mark as approved</button>
+        }
+        else if (Model.IsApproved && !Model.IsResolved)
+        {
+            <button class="btn btn-primary btn-lg" onclick="javascript: MarkPostResolved('res');">Mark as resolved</button>
+        }
+        <div style="float:right;">
+            <div class="addthis_inline_share_toolbox"></div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+            @if (Model.IsResolved)
+            {
+                <p class="metadata" style="color:green;font-size:16px;"><b>Resolved</b></p>
+            }
+            else if (Model.IsApproved)
+            {
+                <p class="metadata" style="color:orange;font-size:16px;"><b>Approved</b></p>
+            }
+            else
+            {
+                <p class="metadata" style="color:indianred;font-size:16px;"><b>Not resolved</b></p>
+            }
+            <p class="metadata" style="font-size:16px;">Category: @Model.Category</p>
+            <p class="metadata" style="font-size:16px;">Date added: @Model.DateAdded</p>
+        </div>
+        <div class="title text-center">
+            <h1 class="display-3" style="display:inline;">@Model.Title</h1>
+        </div>
+
+       
+        <hr />
+        <div class="description">
+            <h2>Description</h2>
+            <p class="lead">@Model.Description</p>
+        </div>
+        <div class="photo">
+            @if (Model.Photo != null)
+            {
+                <img id="largeImage" style="width:100%;" src=@String.Format("data:"+ Model.PhotoExtension +";base64,{0}", Convert.ToBase64String(Model.Photo)) />
+            }
+            else
+            {
+                <img class="default_preview" src="~/Content/images/noimage.jpg" />
+            }
+        </div>
+    </div>
+    <hr/>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 comments">
+        <div class="container">
+            <h3>Comments</h3>
+            <hr />
+            <p style="color:green;display:none;" id="success_msg">Comment added.</p>
+            <textarea class="form-control" id="comment_text" style="max-width:100%; width:100%;" placeholder="Enter a comment"></textarea>
+            <button class="btn btn-primary" onclick="javascript: AddComment();" style="display:inline;">Add comment</button>
+            <hr/>
+            @if (Model.Comments.Count != 0)
+            {
+                <div id="partial_comments">
+                    @Html.Partial("_Comments", Model.Comments)
+                </div>
+            }
+        </div>
+      
+    </div>
+</div>
+
+<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+
+</div>
+
+<script src="~/Scripts/Post/Post.js" type="text/javascript"></script>

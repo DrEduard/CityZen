@@ -1,0 +1,41 @@
+﻿
+@using System.Collections.Generic
+@model PostsFiltersViewModel
+@{
+    ViewBag.Title = "Posts";
+}
+
+
+<h2 style="text-align:center;">All Posts</h2>
+<div style="float:right">
+    <a href="@Url.Action("AddPost","Post")" class="btn btn-primary btn-lg">Add post</a>
+</div>
+<div class="col-lg-4 col-md-4 col-sm-12">
+    <h3>Filters</h3>
+    <div class="row">
+        <label>Category:</label>
+        @Html.DropDownListFor(m => m.Categories, new SelectList(Model.Categories, "Name", "Name"), "--Select Category--", new { @class = "form-control" })
+    </div>
+    <div class="row">
+        <label>City:</label>
+        @Html.DropDownList("City", new SelectList(Model.Cities), "--Select City--", new { @class = "form-control", @onchange = "javascript:GetAddresses(this.value);" })
+    </div>
+    <div class="row">
+        <label>Street:</label>
+        @Html.DropDownList("Street", Enumerable.Empty<SelectListItem>(), "--Select Street--", new { @class = "form-control" })
+        @*@Html.DropDownList("Street", new SelectList(Model.Streets), "--Select Street--", new { @class = "form-control" })*@
+    </div>
+    <div class="btn_command">
+        <button class="btn btn-primary" onclick="ApplyFilters()">Apply filters</button>
+        <button class="btn btn-default" onclick="ClearFilters()">Clear filters</button>
+    </div>
+</div>
+<div class="col-lg-8 col-md-8 col-sm-12 mt80">
+   <h3  id="upvoted" style="color:green;float:right;display:none;">Upvoted</h3>
+    <div id="partial_view">
+        @Html.Partial("_Posts", Model.Posts)
+    </div>
+</div>
+
+
+<script src="~/Scripts/Post/AllPosts.js" type="text/javascript"></script>

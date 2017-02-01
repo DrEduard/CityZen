@@ -1,0 +1,22 @@
+﻿@model List<Comment>
+
+@foreach (var comment in Model)
+{
+    <div class="comment">
+        <div class="comment_header">
+            @if (comment.IsImportant)
+            {
+                <p class="metadata" style="font-size:14px;color:green;"><b>Moderator:</b> @comment.Username</p>
+            }
+            else
+            {
+                <p class="metadata" style="font-size:14px;"><b>@comment.Username</b></p>
+            }
+           
+            <p class="metadata" style="font-size:14px;">@comment.DateAdded</p>
+        </div>
+        <div class="comment_body">
+            <p>@comment.Text</p>
+        </div>
+    </div>
+}

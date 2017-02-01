@@ -1,0 +1,59 @@
+﻿@using Final.Models.Reports
+@model MostControversialViewModel
+    @{
+        ViewBag.Title = "Reports";
+    }
+    <script src="~/Scripts/jquery.canvasjs.min.js"></script>
+
+    <script type="text/javascript">
+        window.onload = function () {
+            var dataTop = @Html.Raw(Json.Encode(Model.top));
+            var dataBottom = @Html.Raw(Json.Encode(Model.bot));
+            var chart = new CanvasJS.Chart("chartContainer", {
+                animationEnabled: true,
+                title: {
+                    text: "Most controversial posts"
+                },
+                axisX: {
+                    title: "Posts"
+                },
+                axisY: {
+                    title: "Number of comments"
+                },
+                data: [
+                {
+                    type: "stackedColumn100",
+                    legendText: "Authority",
+                    showInLegend: "true",
+                    indexLabel: "#percent %",
+                    indexLabelPlacement: "inside",
+                    indexLabelFontColor: "white",
+                    dataPoints: dataTop,
+
+                },
+                {
+                    type: "stackedColumn100",
+                    legendText: "Citizens",
+                    showInLegend: "true",
+                    indexLabel: "#percent %",
+                    indexLabelPlacement: "inside",
+                    indexLabelFontColor: "white",
+                    dataPoints: dataBottom,
+
+                }
+                ]
+            });
+            chart.render();
+        };
+    </script>
+
+    <h2>Reports</h2>
+
+    <ul class="nav nav-tabs">
+        <li><a href="@Url.Action("MostFollowedReports","Reports")">Most followed posts</a></li>
+        <li><a href="@Url.Action("ActivityReport","Reports")">Activity report</a></li>
+        <li class="active"><a href="#">Most controversial</a></li>
+    </ul>
+
+
+    <div id="chartContainer"></div>

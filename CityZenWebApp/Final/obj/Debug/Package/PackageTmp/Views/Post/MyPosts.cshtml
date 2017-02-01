@@ -1,0 +1,37 @@
+﻿@model MyPostsViewModel
+@{
+    ViewBag.Title = "MyPosts";
+}
+
+
+<h2>Saved / Upvoted Posts</h2>
+<div>
+    @Html.Partial("_Posts", Model.UpvotedPosts)
+</div>
+
+<h2>My Added Posts</h2>
+<div>
+    @Html.Partial("_Posts", Model.AddedPosts)
+</div>
+
+<script type="text/javascript">
+    function Downvote(postId) {
+        $.ajax({
+            type: 'post',
+            url: '/Post/Downvote',
+            data: { postId: postId },
+            success: function (data) {
+                if (data == "ok") {
+                    window.location.reload();
+                } else {
+                    alert(data);
+                }
+            },
+            error: function (er) {
+                alert(err);
+            }
+
+
+        })
+    }
+</script>

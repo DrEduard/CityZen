@@ -1,0 +1,48 @@
+﻿@using Final.Models.Reports
+@model List<ActivityReportViewModel>
+@{
+    ViewBag.Title = "Reports";
+}
+<script src="~/Scripts/jquery.canvasjs.min.js"></script>
+
+<script type="text/javascript">
+        window.onload = function () {
+            var data = @Html.Raw(Json.Encode(Model));
+            var chart = new CanvasJS.Chart("chartContainer", {
+                title: {
+                    text: "Reports by status"
+                },
+                animationEnabled: true,
+                legend: {
+                    verticalAlign: "center",
+                    horizontalAlign: "left",
+                    fontSize: 20,
+                    fontFamily: "Helvetica"
+                },
+                theme: "theme2",
+                data: [
+                {
+                    type: "pie",
+                    indexLabelFontFamily: "Garamond",
+                    indexLabelFontSize: 20,
+                    indexLabel: "{label} {y}",
+                    startAngle: -20,
+                    showInLegend: true,
+                    toolTipContent: "{legendText} {y}",
+                    dataPoints: data
+                }
+                ]
+            });
+            chart.render();
+        };
+</script>
+
+<h2>Reports</h2>
+
+<ul class="nav nav-tabs">
+    <li><a href="@Url.Action("MostFollowedReports","Reports")">Most followed posts</a></li>
+    <li  class="active"><a href="#">Activity report</a></li>
+    <li><a href="@Url.Action("MostControversial","Reports")">Most controversial</a></li>
+</ul>
+
+<div id="chartContainer"></div>

@@ -1,0 +1,19 @@
+﻿@model MyPostsViewModel
+@{
+    ViewBag.Title = "Recent";
+}
+
+<h2 style="color:orange;">Most recently approved posts</h2>
+
+<div>
+    @Html.Partial("_Posts", Model.UpvotedPosts)
+</div>
+<hr />
+
+<h2 style="color:green;">Most recently resolved posts</h2>
+
+<div>
+    @Html.Partial("_Posts", Model.AddedPosts)
+</div>
+
+

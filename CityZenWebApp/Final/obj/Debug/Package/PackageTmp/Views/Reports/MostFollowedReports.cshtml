@@ -1,0 +1,44 @@
+﻿@model  List<MostFollowedReportsData>
+@{
+    ViewBag.Title = "Reports";
+}
+
+<h2>Reports</h2>
+<ul class="nav nav-tabs">
+    <li class="active"><a href="#">Most followed posts</a></li>
+    <li><a href="@Url.Action("ActivityReport","Reports")">Activity report</a></li>
+    <li><a href="@Url.Action("MostControversial","Reports")">Most controversial</a></li>
+</ul>
+
+<script src="~/Scripts/jquery.canvasjs.min.js"></script>
+
+<script type="text/javascript">
+
+    window.onload = function () {
+        var data = @Html.Raw(Json.Encode(Model));
+        //var xy = [];
+        //for(var i = 0; i < data.length; i++){
+        //    var x = parseInt(data[i].X);
+        //    var y = parseInt(data[i].Y);
+        //    xy.push({ x, y});
+        //}
+        var chart = new CanvasJS.Chart("chartContainer", {
+            theme: "theme2",
+            animationEnabled: true,
+            title: {
+                text: "Most followed / upvoted posts"
+            },
+
+            data: [
+            {
+                type: "column", //change type to bar, line, area, pie, etc
+                dataPoints:data
+            }
+            ]
+        });
+        chart.render();
+    };
+</script>
+
+
+<div id="chartContainer"></div>
